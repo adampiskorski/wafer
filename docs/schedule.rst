@@ -98,6 +98,8 @@ Pages and breaks do not get checklists - only scheduled talks do.
 The checklist warning times are computed relative to the presumed end of
 the talk, which is the end of the talk's schedule slot, less the number of
 minutes given by the ``WAFER_CHECKLIST_TALK_END_BUFFER_MINUTES`` setting.
+The set of warning times shown is configurable via the
+``WAFER_CHECKLIST_WARNING_OFFSETS_MINUTES`` setting.
 
 Styling notes
 =============

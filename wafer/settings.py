@@ -370,3 +370,7 @@ WAFER_SCHEDULE_MAX_AUTHORS = 2
 # Session chair checklists assume a talk ends this many minutes before the
 # end of its schedule slot (used for the "warn the speaker" times).
 WAFER_CHECKLIST_TALK_END_BUFFER_MINUTES = 5
+
+# Warning times (in minutes before the presumed end of the talk) shown on
+# the session chair checklists.
+WAFER_CHECKLIST_WARNING_OFFSETS_MINUTES = (15, 10, 5, 0)

@@ -373,8 +373,8 @@ class ScheduleItem(models.Model):
         """Return the warning times for the session chair checklist.
 
            This returns a list of (minutes, time) pairs, with the
-           times 15, 10, 5 and 0 minutes before the end of the talk,
-           formatted for display."""
+           times given by WAFER_CHECKLIST_WARNING_OFFSETS_MINUTES
+           before the end of the talk, formatted for display."""
         end_time = self.get_end_time()
         if end_time is None:
             return []
@@ -382,7 +382,7 @@ class ScheduleItem(models.Model):
             (minutes,
              localtime(end_time - datetime.timedelta(minutes=minutes))
              .strftime('%H:%M'))
-            for minutes in (15, 10, 5, 0)]
+            for minutes in settings.WAFER_CHECKLIST_WARNING_OFFSETS_MINUTES]
 
     @property
     def guid(self):

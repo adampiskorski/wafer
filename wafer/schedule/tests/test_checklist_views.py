@@ -122,6 +122,25 @@ class ChecklistViewTests(TestCase):
         # The real end time must not appear as a warning time
         self.assertNotIn('10:55', content)
 
+    @override_settings(WAFER_CHECKLIST_WARNING_OFFSETS_MINUTES=(20, 0))
+    def test_checklist_item_view_custom_warning_offsets(self):
+        """The warning offsets setting changes the warning times shown"""
+        talk, slot, item = self.make_talk_and_item(D.time(10, 0), D.time(11, 0))
+        create_user('admin', superuser=True)
+        client = Client()
+        client.login(username='admin', password='admin_password')
+        response = client.get(reverse('wafer_checklist_item',
+                                      kwargs={'pk': item.pk}))
+        self.assertEqual(response.status_code, 200)
+        content = response.content.decode('utf-8')
+        # Presumed end is 10:55 (default buffer), so warnings are 10:35 and 10:55
+        self.assertIn('10:35', content)
+        self.assertIn('10:55', content)
+        # The default offsets must not appear
+        self.assertNotIn('10:40', content)
+        self.assertNotIn('10:45', content)
+        self.assertNotIn('10:50', content)
+
     def test_checklist_item_view_non_talk_items(self):
         """Checklists are only available for scheduled talks"""
         page = Page.objects.create(name='test page', slug='testpage')
