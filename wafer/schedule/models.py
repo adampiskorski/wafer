@@ -1,5 +1,7 @@
+import datetime
 from uuid import UUID
 
+from django.conf import settings
 from django.core.cache import cache
 from django.core.exceptions import ValidationError
 from django.db import models
@@ -353,6 +355,34 @@ class ScheduleItem(models.Model):
         """Return the duration in total number of minutes."""
         duration = self.get_duration()
         return int(duration['hours'] * 60 + duration['minutes'])
+
+    def get_end_time(self):
+        """Return the presumed end time of this item.
+
+           This is the end of the last slot, less
+           WAFER_CHECKLIST_TALK_END_BUFFER_MINUTES, so we assume the
+           talk ends a little before its slot actually ends."""
+        slots = list(self.slots.all())
+        if slots:
+            buffer = datetime.timedelta(
+                minutes=settings.WAFER_CHECKLIST_TALK_END_BUFFER_MINUTES)
+            return max(slot.end_time for slot in slots) - buffer
+        return None
+
+    def get_warning_times(self):
+        """Return the warning times for the session chair checklist.
+
+           This returns a list of (minutes, time) pairs, with the
+           times 15, 10, 5 and 0 minutes before the end of the talk,
+           formatted for display."""
+        end_time = self.get_end_time()
+        if end_time is None:
+            return []
+        return [
+            (minutes,
+             localtime(end_time - datetime.timedelta(minutes=minutes))
+             .strftime('%H:%M'))
+            for minutes in (15, 10, 5, 0)]
 
     @property
     def guid(self):

@@ -1,0 +1,60 @@
+{% load i18n %}
+<div class="checklist-talk">
+  <h1>{{ item.talk.title }} by {{ item.talk.get_authors_display_name }}</h1>
+  <ul>
+    <li>{{ item.get_start_time }}</li>
+    <li>{{ item.venue.name }}</li>
+  </ul>
+
+  {{ item.talk.abstract }}
+
+  <p>{% trans "Notes" %}: <span class="checklist-notes"></span></p>
+  <p><span class="checklist-notes"></span></p>
+
+  <h2>{% trans "Preparation Checklist" %}</h2>
+  <ul>
+    <li class="check">{% trans "Introduce yourself to the speaker and confirm their talk description and how to pronounce their names" %}</li>
+    <li class="check">{% trans "Ask if there is anything you need to take note of." %}</li>
+    <li class="check">{% trans "Show the speaker cards that indicate how close they are to the end of the talk" %}</li>
+    <li class="check">{% trans "Make sure the speaker has tested their laptop with the projector (AV team may need to assist)" %}</li>
+    <li class="check">{% trans "Make sure the speaker is familiar with their microphone (AV team may need to assist)" %}</li>
+  </ul>
+
+  <h2>{% trans "Talk checklist" %}</h2>
+  <ul>
+    <li class="check">{% trans "At the start, introduce the speaker and the talk," %}</li>
+    <li class="check">{% blocktrans trimmed %}Let the online attendees know that they can ask questions, but to use <code>!question</code> so that they show up.{% endblocktrans %}</li>
+    <li class="check">{% trans "Ask the audience to give them a round of applause to begin the talk." %}</li>
+  </ul>
+
+  <h3>{% trans "During the talk" %}</h3>
+  <ul>
+    <li class="check">{% trans "Warn the speaker with the cards when their talk is about to end" %}</li>
+  </ul>
+  <p>{% trans "The below times are only indicative. We usually have, for example, a 15-minute buffer for a 30-minute talk in a 45-minute schedule slot, so if the speaker starts 10 minutes late, then they still get their full 30 minutes, and 5 minutes of Q&A." %}</p>
+  <p>{% trans "So note the actual times next to the suggested ones, depending on when the speaker actually starts." %}</p>
+  <ul>
+    {% for minutes, warning_time in item.get_warning_times %}
+      {% if minutes == 0 %}
+        <li>{% trans "Time of talk end" %}: {{ warning_time }} / <span class="fill-in"></span></li>
+      {% else %}
+        <li>{% blocktrans with minutes=minutes trimmed %}Time {{ minutes }} minutes before talk end{% endblocktrans %}: {{ warning_time }} / <span class="fill-in"></span></li>
+      {% endif %}
+    {% empty %}
+      <li>{% trans "WARNING: No time and day specified for this talk" %}</li>
+    {% endfor %}
+  </ul>
+
+  <h3>{% trans "Q&amp;A" %}</h3>
+  <p>{% trans "When the speaker has finished, and there is time for questions:" %}</p>
+  <ul>
+    <li class="check">{% trans "Thank the speaker and compliment them on the talk, and announce that they are ready for Q&amp;A" %}</li>
+    <li class="check">{% trans "EVERY audience member who is asking questions is using the handheld microphone (otherwise online viewers won't hear them)" %}</li>
+    <li class="check">{% trans "When there are no more questions, or there is no more time left, thank the speaker again and ask for a final applause" %}</li>
+  </ul>
+
+  <h3>{% trans "Post talk" %}</h3>
+  <ul>
+    <li class="check">{% trans "Make sure the microphones are turned off and returned to the AV desk." %}</li>
+  </ul>
+</div>
