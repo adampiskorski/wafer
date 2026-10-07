@@ -1,6 +1,6 @@
 {% load i18n %}
 <div class="checklist-talk">
-  {% block header %}
+  {% block talk-details %}
     <h1>{{ item.talk.title }} by {{ item.talk.get_authors_display_name }}</h1>
     <ul>
       <li>{{ item.get_start_time }}</li>
@@ -11,7 +11,7 @@
 
     <p>{% trans "Notes" %}: <span class="checklist-notes"></span></p>
     <p><span class="checklist-notes"></span></p>
-  {% endblock header %}
+  {% endblock talk-details %}
 
   {% block preparation %}
     <h2>{% trans "Preparation Checklist" %}</h2>
