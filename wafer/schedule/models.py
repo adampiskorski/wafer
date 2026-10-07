@@ -366,7 +366,7 @@ class ScheduleItem(models.Model):
         if slots:
             buffer = datetime.timedelta(
                 minutes=settings.WAFER_CHECKLIST_TALK_END_BUFFER_MINUTES)
-            return max(slot.end_time for slot in slots) - buffer
+            return slots[-1].end_time - buffer
         return None
 
     def get_warning_times(self):
