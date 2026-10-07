@@ -38,7 +38,7 @@
     <ul>
       <li class="check">{% trans "Warn the speaker with the cards when their talk is about to end" %}</li>
     </ul>
-    <p>{% trans "The below times are only indicative. We usually have, for example, a 15-minute buffer for a 30-minute talk in a 45-minute schedule slot, so if the speaker starts 10 minutes late, then they still get their full 30 minutes, and 5 minutes of Q&A." %}</p>
+    <p>{% trans "The below times are only indicative and should be adjusted as needed for unexpected delays or changes to the schedule" %}</p>
     <p>{% trans "So note the actual times next to the suggested ones, depending on when the speaker actually starts." %}</p>
     <ul>
       {% for minutes, warning_time in item.get_warning_times %}
